@@ -1,0 +1,50 @@
+
+# Modelling Frameworks
+
+When embarking upon, even a cursory, overview of the credit-risk modelling literature, one will be confronted with two competing approaches: the so-called structural and reduced-form methodologies. The difference is relatively easy to
+describe.
+
+## Which model to use?
+
+Our thematic categorization is intended to inform three distinct questions. The first question, associated with the initial theme, is: which credit-risk model should one use? There is, naturally, no single correct answer for all applications. It will depend upon one’s situation and needs.
+
+1. an independent-default model;
+2. a dependent-default reduced-form approach; and
+3. a variety of alternatives within the structural setting
+
+A simple example might help the reader understand the differences between these two models. Imagine that your boss is trying to construct a model of your, perhaps difficult-to-predict, morning arrival time. A reduced-form model might simply involve collecting some data and describing your office entry with a classic Poisson-arrival technique. This is a purely statistical approach. A structural approach, conversely, would seek to describe the main reason for your tardiness. The structurally minded boss might model your arrival as conditional upon the weather, the time of year, the state of public transportation, or the day of the week. 
+
+Clearly, there is some room for overlap, but there is a basic difference. Reduced form models are generally agnostic about the underlying reasons and are informed by data, whereas structural model seek to impose certain relationships often imposed by theory or logic There are advantages and disadvantages to each approach and, as such, it is not particularly useful to describe one method as superior to the other.
+
+Financial models provide a theoretical framework to assess the risk of the counterpart. Their theoretical foundation makes structural models intuitively appealing: their functioning can be explained and understood even in the absence of data. While other models rely only on the observed data and statistical analysis, structural models can be defended based on the theoretical framework. Of course, one always needs to assess its functioning in practice to see whether all assumptions in the model derivation are also observed on real data.
+
+## Structural models
+
+Structural models are descriptive; they say something about the reason behind the default event. In this setting, default is endogenous to the model. This is consistent with the way the term structural is used in other modelling frameworks. It denotes the imposition of specific model behaviour as suggested by theory.
+
+### Merton (1974)
+
+Structural models were initiated by Merton (1974)[^first] and use the Black-Scholes option pricing framework to characterise default behaviour. They are used to calculate the probability of default of a firm based on the value of its assets and liabilities. The main challenge with this approach is that one does not observe the market value of a firm’s assets. A bank’s annual report only provides an accounting version of its assets. But for any publicly listed bank, the market value of equity is observable, as is its debt.
+
+Merton (1974) introduces a structural credit risk model where defaults are endogenously generated within the model. It is assumed that the default happens if the value of assets falls short of the value of liabilities. One of the model’s major drawbacks is the availability of market prices for the asset value. Such data are usually not available for small and medium sized enterprises.
+
+
+Reduced-form models take an alternative perspective. These methods treat the default event as exogenous. That is, there is no structural description of the underlying cause of default. It simply occurs with a particular probability. The driving idea is that the default event is modelled in an empirical sense, rather than informing it from a structural or theoretical perspective.
+
+## Empirical statistical models
+
+A disadvantage of structural models is that their theoretical background
+may not always match completely with empirical observations. When one
+has sufficient data, one estimates empirical statistical models of which the
+parameters and also the structure are learned from the data.
+Statistical models determine empirically a valid relation between explanatory variables and the explained variable. Explanatory variables are also
+called input variables, independent variables or risk drivers. Financial ratios
+are typical explanatory variables. The explained variable is also known as
+the dependent or target variable.
+
+
+### Logistic regression models
+
+### Survival analysis models
+
+[^first]: Merton, Robert C., "On the Pricing of Corporate Debt: The Risk Structure of Interest Rates", Journal of Finance, Vol. 29, No. 2, (May 1974), pp. 449-470 doi:10.2307/2978814

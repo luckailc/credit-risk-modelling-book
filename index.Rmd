@@ -1,0 +1,21 @@
+---
+title: "Credit risk modelling"
+subtitle: "A Guide for modelling credit risk"
+author: "Lučka Ilc"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook:
+    lib_dir: "book_assets"
+  bookdown::pdf_book:
+    keep_tex: yes
+documentclass: book
+biblio-style: apalike
+link-citations: yes
+github-repo: luckailc/credit_risk_modelling_book
+description: "Book about credit risk modelling"
+---
+
+# Introduction {-}
+
+# About me {-}

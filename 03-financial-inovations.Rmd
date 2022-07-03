@@ -1,0 +1,16 @@
+
+# Technological Advances
+
+In credit risk world, statistics and machine learning play an important role in solving problems related to credit risk. 
+
+## Machine Learning
+
+One important result of the increase in computing power has been the growth of machine learning. This is a branch of artificial intelligence that allows computers to learn without being explicitly programmed.
+
+Machine learning has many potential applications in finance, such as freud recognition and the automation of lending decisions. There are three types of machine learning:
+
+1. Supervised learning: The computer is presented with data consisting of inputs and desired outputs, and the goal is to develop rules for mapping inputs to outputs. The ranslation ecample we have just given falls into this category.
+
+2. Unsupervised learning: The computer is asked to learn by finding structure or hiden pettern in data
+
+3. Reinforcement learning. A computeer program interacts with a dynamic environment in which it must perform a certain goal.

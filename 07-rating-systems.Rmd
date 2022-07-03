@@ -1,0 +1,74 @@
+
+# Rating and scoring systems
+
+Both credit scores and credit ratings provide a credit risk assessment. When scores are gathered into homogeneous score segments or risk classes, the result of the score is a “rating”.
+
+The primary purpose of this essay was to illustrate the evolution of credit policy, and within it credit ratings—both risk grades and credit scores. The term "risk grade" tends to imply a holistic assessment that involves some judgment, usually for larger companies and countries, and any grade provided by a model may be overridden. By contrast, the term "credit score" implies the use of purely objective data, usually for consumers and smaller businesses, obtained from the customer or internal and external systems, and while the score may be mapped onto a grade, only the final decision can be overridden—not the score.
+
+
+## Credit scoring
+
+The early success of application scorecards drew the attention of the academics and researchers to develop advanced statistical and machine-learning techniques that apply a wide range of explanatory variables or characteristics.
+
+Credit scoring is a credit risk management technique that analyzes the borrower’s risk. A good credit scoring model has to be highly discriminative: high scores reflect almost no risk and low scores correspond to very high risk, (or the opposite, depending on the sign condition).
+
+In the past, credit scoring focused on measuring the risk that a customer would not fulfill his/her financial obligations and run into payment arrears. More recently, credit scoring evolved to loss and exposure risk as well. Scoring techniques are nowadays used throughout the whole life cycle of a credit as a decision support tool or automated decision algorithm for large customer bases. Increasing competition, electronic sale channels and recent banking regulation have been important catalysts for the application of (semi-) automated scoring systems.
+
+Since their inception, credit scoring techniques have been implemented in a variety of different, yet related settings. A first example is credit approval. Originally, the credit approval decision was made using a purely judgmental approach by merely inspecting the application form details of the applicant, i. e. expert-based approach towards credit scoring.
+
+
+Although external ratings cover a wide range of counterparts across broad geographical areas, there remain many counterparts in the banking books that do not yet have an external rating. The Basel II Capital Accord has motivated financial institutions to develop internal rating systems for regulatory capital calculations.
+
+
+Scores exist for various purposes, application and behavioral scoring being the most important ones for retail customers. For retail customers, individual ratings are not required for Basel II capital calculations, it is allowed to measure the risk on homogeneous pools of customers.
+
+Internal scores and ratings are used for internal risk management and regulatory capital calculations.
+
+External ratings are used by banks for the same purposes and for benchmarking their internal ratings with external ratings.
+
+Internal scores and ratings nowadays cover almost the whole banking book of advanced banks.
+
+ The differences between scores and ratings become blurred. The score terminology is particularly used in retail environments
+where large customer databases are scored automatically by mostly statistical scoring systems. Ratings are assigned to bond issues and take into account objective as well as subjective elements. The subjective elements aim to capture outlooks and future evolutions. Ratings result from a manual process that may take days to weeks to complete.
+
+**Credit Scoring models**:
+These are mostly used for consumer and retail lending. They provide a score (usually a 3 digit number, where higher is less risk and vice-versa) at the applicant level. That’s why you see mostly people saying things like they have “a 650 score”.
+
+There are two types of credit scoring models:
+
+1 *External credit scores*; Usually based on credit reports and bureau data. Here is the FICO scores for example, and sometimes bureau scores built by bureau reporting companies like Equifax, Experian or Transunion.
+
+2 *Internal credit scores*: These are the scores built by the internal modeling teams within the banks and other financial institutions. It can include applicant’s data from within the bank as well as external data as bureau
+
+The score, also called by the Anglo-Saxons, “scoring”, or “credit scoring”, is determined by an automatic and statistical calculation model. It is based on an algorithm, and the exploitation of data, without any human intervention. As part of the calculation of this indicator, there is therefore no intervention by a financial analyst.
+
+It can be produced by companies themselves or by providers, such as companies specializing in business information. It can also be produced internally by banks and insurance companies for their own use. For this purpose, it is based on a statistical analysis of the data available to them.reports.
+
+Credit scores are often segmented into homogeneous pools. Segmented scores are discrete risk estimates that are also known as risk classes and ratings. Ratings will be discussed in the next chapter.
+
+## Credit Ratings
+
+They are mostly used to assess government and corporate lending through Bond issuing. That’s why a you see some countries national debt is rated AAA, or BBB. Same with debt issued by publicly listing corporations. The entities behind these ratings are known as Credit Rating Agencies.
+
+Credit ratings play a crucial role in many contexts of today’s international financial environment. They serve as a key summary of the credit risks of counterparts and transactions. Ratings are a standard and well understood way of communication in banks and in the investors community.
+
+Applications of ratings include:
+1. Providing information
+
+2. Credit approval
+
+3. Portfolio risk analysis
+
+4. Regulation
+
+5. Regulatory capital and economic capital calculation
+
+6. Pricing
+
+7. Performance measurement
+
+8. Debt structuring
+
+9. Securitization
+
+10. Risk reporting
