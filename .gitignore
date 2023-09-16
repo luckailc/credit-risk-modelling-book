@@ -1,0 +1,16 @@
+# History files
+.Rhistory
+
+# Session Data files
+.RData
+
+# RStudio files
+.Rproj.user/
+
+# The book files
+_book/
+
+# LaTeX files
+*.aux
+*.tex
+*.log
