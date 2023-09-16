@@ -7,6 +7,9 @@
 # RStudio files
 .Rproj.user/
 
+# The book files
+_book/
+
 # LaTeX files
 *.aux
 *.tex
