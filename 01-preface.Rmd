@@ -13,7 +13,7 @@ Credit risk is typically represented by means of three factors: default risk, lo
 
 ### Default risk (PD)
 
-**Default risk (PD)**: The default risk is the probability that a default event occurs. This probability is called the probability of default (PD). The probability has values between 0 and 1. There are many definitions of a default event. The most common definition of a default event is a payment delay of at least 3 months. Other definitions may add specific events.
+Default risk (PD): The default risk is the probability that a default event occurs. This probability is called the probability of default (PD). The probability has values between 0 and 1. There are many definitions of a default event. The most common definition of a default event is a payment delay of at least 3 months. Other definitions may add specific events.
 
 In most cases, default risk is defined on a counterpart, not on a product. When a counterpart defaults on one loan or obligation, it is likely to default also on its other loans by the contamination principle. In particular asset classes, the contamination principle may not always hold and default risk can also be product specific.
 
