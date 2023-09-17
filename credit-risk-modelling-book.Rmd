@@ -1,0 +1,377 @@
+---
+title: "Credit Risk Modelling"
+subtitle: "A Guide for Modelling Credit Risk"
+author: "Lučka Ilc"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook:
+    lib_dir: "book_assets"
+  bookdown::pdf_book:
+    keep_tex: yes
+documentclass: book
+biblio-style: apalike
+link-citations: yes
+github-repo: luckailc/credit_risk_modelling_book
+description: "Book about Credit Risk Modelling"
+---
+
+# Introduction {-}
+
+# About me {-}
+
+<!--chapter:end:index.Rmd-->
+
+
+# Preface
+
+The intention of this effort is to provide an introduction to the area of credit-risk modelling to practitioners.
+
+## Motivation
+
+Most banks have procedures for rating the creditworthiness of their corporate and retail clients. This is necessity. The ratings published by rating agencies are usually available only for companies that have issued publicly traded debt. As a result, many small and medium-sized companies do not have credit ratings from rating agencies.
+
+## Three risk factors
+
+Credit risk is typically represented by means of three factors: default risk, loss risk and exposure risk:
+
+### Default risk (PD)
+
+**Default risk (PD)**: The default risk is the probability that a default event occurs. This probability is called the probability of default (PD). The probability has values between 0 and 1. There are many definitions of a default event. The most common definition of a default event is a payment delay of at least 3 months. Other definitions may add specific events.
+
+In most cases, default risk is defined on a counterpart, not on a product. When a counterpart defaults on one loan or obligation, it is likely to default also on its other loans by the contamination principle. In particular asset classes, the contamination principle may not always hold and default risk can also be product specific.
+
+In the case of a default, the actual loss depends on the loss given default (LGD) and the exposure at default (EAD).
+
+### Loss risk (LGD)
+
+**Loss risk (LGD)**: The loss risk determines the loss as a fraction of the exposure in the case of default. In the Basel II terminology, this parameter is known as the loss given default (LGD). In the case of no loss, the LGD is equal to zero. When one loses the full exposure amount, the LGD is equal to 100%. A negative LGD indicates a profit (e.g., due to penalty fees and interest rate). In some cases, the LGD can be above 100%, e.g., due to litigation costs and almost zero recovery from the defaulted counterpart. In some textbooks, one also uses the related concept of the recovery rate: the fraction of the total amount that one recovers. Both the loss given default and the recovery rate sum up to one.
+
+The loss given default or recovery rate are not fixed parameters. These values fluctuate from one defaulted product to another. Some counterparts may cure from default and repay all the debt and delayed payments. For others, an agreement between the defaulted debtor and all the creditors may result in a distressed exchange agreement where all involved parties carry part of the loss. In the worst case, the default results in a bankruptcy procedure with high losses and the end of the bank–customer relation.
+
+In practice, the LGD values are observed to vary quite a lot and depend upon the type of default and its resolution:
+
+*Cure*: The financial health of the defaulted counterpart is cured shortly after the default event, e.g., because of an additional income or a shareholder intervention. The counterpart continues to fulfil its contractual obligations. There is no significant loss for the bank and the relation with the customer is not impacted.
+
+*Restructuring*: The defaulted counterpart is able to recover from default after a debt restructuring, e.g., debt renegotiations resulting in a longer maturity and partial debt forgiveness. The bank–customer relation is damaged, but is often maintained. The bank accepts a medium loss to avoid higher losses in a liquidation or bankruptcy procedure.
+
+*Liquidation*: The customer’s facilities are liquidated, collateral is seized. The relationship with the customer is ended. Liquidation procedures may involve high legal costs and losses are typically high.
+
+It is difficult to predict the resolution type before default. On average, liquidation is expected to occur more for the weakest counterparts for which investors and banks are less eager to reinvest.
+
+The LGD is measured on a product basis. It has typically values between 0 and 100% and is either represented in a continuous way or by means of loss grades.
+
+### Exposure risk (EAD)
+
+**Exposure risk (EAD)**: The exposure at the time of default (EAD) may not be known beforehand.
+
+
+These risk factors also depend on the maturity of the contract. The longer the contract, the higher the uncertainty and the risk. In most applications one measures or expresses the credit risk on a 1-year horizon. The estimation, modelling and management of the default risk is the most developed. Both LGD and EAD risk received a lot of attention with the new Basel Capital Accord.
+
+<!--chapter:end:01-preface.Rmd-->
+
+
+# Modelling Frameworks
+
+When embarking upon, even a cursory, overview of the credit-risk modelling literature, one will be confronted with two competing approaches: the so-called structural and reduced-form methodologies. The difference is relatively easy to
+describe.
+
+## Which model to use?
+
+Our thematic categorization is intended to inform three distinct questions. The first question, associated with the initial theme, is: which credit-risk model should one use? There is, naturally, no single correct answer for all applications. It will depend upon one’s situation and needs.
+
+1. an independent-default model;
+2. a dependent-default reduced-form approach; and
+3. a variety of alternatives within the structural setting
+
+A simple example might help the reader understand the differences between these two models. Imagine that your boss is trying to construct a model of your, perhaps difficult-to-predict, morning arrival time. A reduced-form model might simply involve collecting some data and describing your office entry with a classic Poisson-arrival technique. This is a purely statistical approach. A structural approach, conversely, would seek to describe the main reason for your tardiness. The structurally minded boss might model your arrival as conditional upon the weather, the time of year, the state of public transportation, or the day of the week. 
+
+Clearly, there is some room for overlap, but there is a basic difference. Reduced form models are generally agnostic about the underlying reasons and are informed by data, whereas structural model seek to impose certain relationships often imposed by theory or logic There are advantages and disadvantages to each approach and, as such, it is not particularly useful to describe one method as superior to the other.
+
+Financial models provide a theoretical framework to assess the risk of the counterpart. Their theoretical foundation makes structural models intuitively appealing: their functioning can be explained and understood even in the absence of data. While other models rely only on the observed data and statistical analysis, structural models can be defended based on the theoretical framework. Of course, one always needs to assess its functioning in practice to see whether all assumptions in the model derivation are also observed on real data.
+
+## Structural models
+
+Structural models are descriptive; they say something about the reason behind the default event. In this setting, default is endogenous to the model. This is consistent with the way the term structural is used in other modelling frameworks. It denotes the imposition of specific model behaviour as suggested by theory.
+
+### Merton (1974)
+
+Structural models were initiated by Merton (1974)[^first] and use the Black-Scholes option pricing framework to characterise default behaviour. They are used to calculate the probability of default of a firm based on the value of its assets and liabilities. The main challenge with this approach is that one does not observe the market value of a firm’s assets. A bank’s annual report only provides an accounting version of its assets. But for any publicly listed bank, the market value of equity is observable, as is its debt.
+
+Merton (1974) introduces a structural credit risk model where defaults are endogenously generated within the model. It is assumed that the default happens if the value of assets falls short of the value of liabilities. One of the model’s major drawbacks is the availability of market prices for the asset value. Such data are usually not available for small and medium sized enterprises.
+
+
+Reduced-form models take an alternative perspective. These methods treat the default event as exogenous. That is, there is no structural description of the underlying cause of default. It simply occurs with a particular probability. The driving idea is that the default event is modelled in an empirical sense, rather than informing it from a structural or theoretical perspective.
+
+## Empirical statistical models
+
+A disadvantage of structural models is that their theoretical background
+may not always match completely with empirical observations. When one
+has sufficient data, one estimates empirical statistical models of which the
+parameters and also the structure are learned from the data.
+Statistical models determine empirically a valid relation between explanatory variables and the explained variable. Explanatory variables are also
+called input variables, independent variables or risk drivers. Financial ratios
+are typical explanatory variables. The explained variable is also known as
+the dependent or target variable.
+
+
+### Logistic regression models
+
+### Survival analysis models
+
+[^first]: Merton, Robert C., "On the Pricing of Corporate Debt: The Risk Structure of Interest Rates", Journal of Finance, Vol. 29, No. 2, (May 1974), pp. 449-470 doi:10.2307/2978814
+
+<!--chapter:end:02-modeling_techniques.Rmd-->
+
+
+# Technological Advances
+
+In credit risk world, statistics and machine learning play an important role in solving problems related to credit risk. 
+
+## Machine Learning
+
+One important result of the increase in computing power has been the growth of machine learning. This is a branch of artificial intelligence that allows computers to learn without being explicitly programmed.
+
+Machine learning has many potential applications in finance, such as freud recognition and the automation of lending decisions. There are three types of machine learning:
+
+1. Supervised learning: The computer is presented with data consisting of inputs and desired outputs, and the goal is to develop rules for mapping inputs to outputs. The ranslation ecample we have just given falls into this category.
+
+2. Unsupervised learning: The computer is asked to learn by finding structure or hiden pettern in data
+
+3. Reinforcement learning. A computeer program interacts with a dynamic environment in which it must perform a certain goal.
+
+<!--chapter:end:03-financial-inovations.Rmd-->
+
+
+# Estimating Probability of Default
+
+As explained regulators have for a long time required banks to keep capital for credit risk. Under Basel II banks can, with approval from bank supervisors, use their own estimates of default probabilities to determine the amount of capital they are required to keep. This has led banks to search for better ways of estimating these probabilities.
+
+Default probability is the most critical and most intensely studied of the components of single‐name credit risk. Almost all firms that deal in credit risk instruments will want to form their own assessments of default probability (only if credit instruments are only a small portion of the investment portfolio and are almost all liquid might a fi rm be satisfi ed with just basing this assessment on input from an outside service). Firms with heavy investment in credit instruments, such as traditional banks, will devote considerable resources to their own determination of default probability.
+
+## What is default?
+
+PD is the probability that a firm will default in year t given that it did not default in year t − 1, all firms who have for the first time taken the loan (in any bank) in year t are excluded form the sample. Firms that were in the state of default for two or more consecutive years are also excluded and only their first migration to the state of default is taken into account.
+
+Under the framework of Basel II the obligor defaults on his credit obligation if:
+
+1. he is unlikely to pay the obligation or
+
+2. is passed overdue more than 90 days (BCBS, 2006).
+
+Since it is difficult to set the objective criteria for unlikeliness of paying the obligation, we derive the indicator of firm default from credit overdue. 
+
+Defaulted firms are on average younger, have lower liquidity, higher leverage, lower cash flow, worse operating performance and have lower interest coverage, comparing to non-defaulted firms. A significantly useful indicator to separate between firms in default and non-default is also a variable which measures a number of days a firm has blocked bank account per year.
+
+## Credit risk model architecture
+
+1. Data Preparation
+
+2. Variable Selection
+
+3. Model Development
+
+4. Model Validation
+
+5. Calibration
+
+6. Independent Validation
+
+7. Supervisory Approval
+
+8. Model Implementation : Roll out to users
+
+9. Periodic Monitoring
+
+10. Post Implementation Validation : Backtesting and Benchmarking
+
+11. Model Refinement (if any issue)
+
+## Rating Philosophy
+
+Rating philosophy refers to the time horizon for which the ratings measure credit risk, and hence to how much they are influenced by cyclic effects
+
+The first step in the rating model development process is the determination of the rating philosophy. Financial institutions should first decide what they want their models to indicate before developing them.
+
+A rating philosophy is how the bank's obligor rating assignments are affected by the bank's choice of the range of economic, business, and industry conditions that are considered in the rating process (FED, 2006), in other words the kind of information the rating intends to summarize. Ratings can be stressed or unstressed with different stress levels. Rating system approaches may be characterized as being on a spectrum between:
+
+1. Point-in-time (PIT) approaches - IFRS9
+
+2. Through-the-cycle (TTC) approaches - Basel III
+
+
+It refers to the time horizon for which ratings measure credit risk and how much they are influenced by cyclic effects.
+
+This session will look at the challenges faced by financial institutions in developing their TTC PD models for retail portfolios
+
+
+<!--chapter:end:04-pd.Rmd-->
+
+
+# Regulation
+
+An agreement in 1988, known as the Basel Accord, marked the start of international standards for bank regulation. Since 1988, bank regulation has been an evoluntary process. New regulations have modified previous regulations, but often approaches used in previous regulations have been preserved. In order to understand the current regulatory environment, it is therefore necessary to understand historical developments.
+
+This chapter explains the evolutioon of the regulatory environment.
+
+Credit risk, the risk of loss due to a borrower being unable to repay a debt in full or in part, accounts for the bulk of most naks' risk-taking activities and regulatory capital requirements. There are two broad approaches to calculating RWAs for credit risk: the standardised approach and the internal ratins-based approach.
+
+The initial interest in credit risk models originated from the need to quantify the amount of economic capital necessary to support a bank’s exposures
+
+## The Basel Framework
+
+### Basel I
+
+### Basel II
+
+
+Fore credit risk, Basel II  sprecified three approaches:
+
+1. The Standardized Approach (SA)
+
+2. The Foundation Internal Rating Based Approach (F-IRB)
+
+3. The Advanced Internal Rating Based Approach  (A-IRB)
+
+### The Standardized Approach
+
+The standardized approach is used by banks that are not sufficiently sophisticated (in the eyes of regulators) to use the internal ratings approaches. The standardized approach is similar to Basel I  except for the calculation of risk weights (effect of credit risk of counterparty i.e. ratings is included.
+
+Most banks around the world use the standardised approach (SA) for credit risk. Under this approach, supervisors set the risk weight that banks apply to their exposures to determine RWAs. This means that banks do not use their internal models to calsulate risk-weighted assets.
+
+### The Foundation IRB Approach
+
+The internal rating-based (IRB) approach for credit risk allows banks, under certain conditions, to use their internal models to estimate credit risk, and therefore RWAs. There are two main IRB approaches: Foundation Internal Rating Based (F-IRB) and Advanced Internal Rating Based (A-IRB).
+
+Regulators base the capital requirement on the value at risk calculated using a one-year tune horizon and a 99.0% confidence level. They recognize that expected losses are usually covered by the way a financial institution prices its products, e.g. the interest charged by a bank on a loan is designed to recover expected loan losses. The capital required is therefore the value at risk minus the expected loss.
+
+It has three credit risk parameters:
+
+
+| Risk parameters | Description |
+| ------         | ----------- |
+| PD             | the probability thet the counterparty will default within one year (expressed as a decimal). |
+| LGD            | the loss given default or the proportion of the exposure (expressed as a decimal).           |
+| EAD            | the exposure at default (in euros).                                                          |
+
+Banks develop own empirical model to estimate the probability of default (PD) for individual clients or groups of clients. Model needs to be approved by central bank. Banks are required to use regulators prescribed LGD or other parameters required for calculating the RWA for non-retail portfolio. For retail exposures banks are required to use their own estimates of the IRB parameters (PD, LGD, CCF).
+
+Under foundation IRB, banks model only the probability of default. Under the advanced IRB approach, banks can also model their own loss given default (LGD) and exposure-at-default (EAD) levels.
+
+The IRB approach is much more complex to implement bacause it requires stronger quantitative modelling skills within the bank, and access to historical default data.
+
+Banks need three years of default data to build a PD model. Under advanced IRB, banks need five to seven years of data to build a LGD model. F-IRB uses regulatory LGD.
+
+#### Probability of Default (PD)
+
+Probability of Default (PD) is a financial term describing the likelihood of a default over a particular time horizon. It provides an estimate of the likelihood that a borrower will be unable to meet its dept obligations.
+
+PD is used in a variety of credit analysses and risk management frameworks. Under Basel II it is a key parameter used in the calculation of economic capital or regulatory capital for a banking institution.
+
+For public companites default probabilities are commonly estimated using either the "structural model" of credit risk (Morton, 1974)
+
+#### Exposure at Default (EAD)
+
+
+
+#### Loss given Default (LGD)
+
+
+## IFRS
+
+
+## Internal rating based on regulation
+
+The Basel II Capital Accord explicitly promotes the use of internal ratings for risk management and capital requirements. It defines minimum requirements for internal rating systems. Bank’s internal rating systems used for regulatory capital purpose need to have two28 dimensions. The borrower dimension reflects the default risk. The facility dimension reflects default and loss risk combined in the expected loss or only loss risk when the bank estimates the loss internally.
+
+The number of risk classes in each scale has to be such that a meaningful distribution across the different grades is obtained, avoiding excessive concentrations. The minimum number ofPD borrower grades is seven, where the grades should be such that the PD in a grade is sufficiently homogeneous. At least one grade should be used for the defaulted borrowers, although many banks use both an “unlikely to pay” and “default” grade. The prediction horizon for PD is one year, though ratings may be assigned on a longer time horizon. The use of TTC ratings is clearly preferred that assess the risk during adverse circumstances.
+
+No minimum number of risk grades is required for LGD scales, but also the scale has to be meaningful and avoid large variations of LGD values in one singular scale. LGDvalues need to take into account economic downturn circumstances. The purpose of the accord is to improve risk management practices in banks towards a more unified use of ratings and towards comparable default and loss statistics.
+
+
+The Basel Committee on Banking Supervision has communicated that it is the bank’s responsibility to understand and monitor its internal scoring systems.
+
+<!--chapter:end:05-regulation.Rmd-->
+
+
+# Statistical foundations
+
+<!--chapter:end:06-statistical-foundations.Rmd-->
+
+
+# Rating and scoring systems
+
+Both credit scores and credit ratings provide a credit risk assessment. When scores are gathered into homogeneous score segments or risk classes, the result of the score is a “rating”.
+
+The primary purpose of this essay was to illustrate the evolution of credit policy, and within it credit ratings—both risk grades and credit scores. The term "risk grade" tends to imply a holistic assessment that involves some judgment, usually for larger companies and countries, and any grade provided by a model may be overridden. By contrast, the term "credit score" implies the use of purely objective data, usually for consumers and smaller businesses, obtained from the customer or internal and external systems, and while the score may be mapped onto a grade, only the final decision can be overridden—not the score.
+
+
+## Credit scoring
+
+The early success of application scorecards drew the attention of the academics and researchers to develop advanced statistical and machine-learning techniques that apply a wide range of explanatory variables or characteristics.
+
+Credit scoring is a credit risk management technique that analyzes the borrower’s risk. A good credit scoring model has to be highly discriminative: high scores reflect almost no risk and low scores correspond to very high risk, (or the opposite, depending on the sign condition).
+
+In the past, credit scoring focused on measuring the risk that a customer would not fulfill his/her financial obligations and run into payment arrears. More recently, credit scoring evolved to loss and exposure risk as well. Scoring techniques are nowadays used throughout the whole life cycle of a credit as a decision support tool or automated decision algorithm for large customer bases. Increasing competition, electronic sale channels and recent banking regulation have been important catalysts for the application of (semi-) automated scoring systems.
+
+Since their inception, credit scoring techniques have been implemented in a variety of different, yet related settings. A first example is credit approval. Originally, the credit approval decision was made using a purely judgmental approach by merely inspecting the application form details of the applicant, i. e. expert-based approach towards credit scoring.
+
+
+Although external ratings cover a wide range of counterparts across broad geographical areas, there remain many counterparts in the banking books that do not yet have an external rating. The Basel II Capital Accord has motivated financial institutions to develop internal rating systems for regulatory capital calculations.
+
+
+Scores exist for various purposes, application and behavioral scoring being the most important ones for retail customers. For retail customers, individual ratings are not required for Basel II capital calculations, it is allowed to measure the risk on homogeneous pools of customers.
+
+Internal scores and ratings are used for internal risk management and regulatory capital calculations.
+
+External ratings are used by banks for the same purposes and for benchmarking their internal ratings with external ratings.
+
+Internal scores and ratings nowadays cover almost the whole banking book of advanced banks.
+
+ The differences between scores and ratings become blurred. The score terminology is particularly used in retail environments
+where large customer databases are scored automatically by mostly statistical scoring systems. Ratings are assigned to bond issues and take into account objective as well as subjective elements. The subjective elements aim to capture outlooks and future evolutions. Ratings result from a manual process that may take days to weeks to complete.
+
+**Credit Scoring models**:
+These are mostly used for consumer and retail lending. They provide a score (usually a 3 digit number, where higher is less risk and vice-versa) at the applicant level. That’s why you see mostly people saying things like they have “a 650 score”.
+
+There are two types of credit scoring models:
+
+1 *External credit scores*; Usually based on credit reports and bureau data. Here is the FICO scores for example, and sometimes bureau scores built by bureau reporting companies like Equifax, Experian or Transunion.
+
+2 *Internal credit scores*: These are the scores built by the internal modeling teams within the banks and other financial institutions. It can include applicant’s data from within the bank as well as external data as bureau
+
+The score, also called by the Anglo-Saxons, “scoring”, or “credit scoring”, is determined by an automatic and statistical calculation model. It is based on an algorithm, and the exploitation of data, without any human intervention. As part of the calculation of this indicator, there is therefore no intervention by a financial analyst.
+
+It can be produced by companies themselves or by providers, such as companies specializing in business information. It can also be produced internally by banks and insurance companies for their own use. For this purpose, it is based on a statistical analysis of the data available to them.reports.
+
+Credit scores are often segmented into homogeneous pools. Segmented scores are discrete risk estimates that are also known as risk classes and ratings. Ratings will be discussed in the next chapter.
+
+## Credit Ratings
+
+They are mostly used to assess government and corporate lending through Bond issuing. That’s why a you see some countries national debt is rated AAA, or BBB. Same with debt issued by publicly listing corporations. The entities behind these ratings are known as Credit Rating Agencies.
+
+Credit ratings play a crucial role in many contexts of today’s international financial environment. They serve as a key summary of the credit risks of counterparts and transactions. Ratings are a standard and well understood way of communication in banks and in the investors community.
+
+Applications of ratings include:
+1. Providing information
+
+2. Credit approval
+
+3. Portfolio risk analysis
+
+4. Regulation
+
+5. Regulatory capital and economic capital calculation
+
+6. Pricing
+
+7. Performance measurement
+
+8. Debt structuring
+
+9. Securitization
+
+10. Risk reporting
+
+<!--chapter:end:07-rating-systems.Rmd-->
+

@@ -3,8 +3,6 @@
 
 The intention of this effort is to provide an introduction to the area of credit-risk modelling to practitioners.
 
-> “Essentily, all models are wrong, but some of them are useful.” - George Box, 1987
-
 ## Motivation
 
 Most banks have procedures for rating the creditworthiness of their corporate and retail clients. This is necessity. The ratings published by rating agencies are usually available only for companies that have issued publicly traded debt. As a result, many small and medium-sized companies do not have credit ratings from rating agencies.
@@ -13,11 +11,15 @@ Most banks have procedures for rating the creditworthiness of their corporate an
 
 Credit risk is typically represented by means of three factors: default risk, loss risk and exposure risk:
 
+### Default risk (PD)
+
 **Default risk (PD)**: The default risk is the probability that a default event occurs. This probability is called the probability of default (PD). The probability has values between 0 and 1. There are many definitions of a default event. The most common definition of a default event is a payment delay of at least 3 months. Other definitions may add specific events.
 
 In most cases, default risk is defined on a counterpart, not on a product. When a counterpart defaults on one loan or obligation, it is likely to default also on its other loans by the contamination principle. In particular asset classes, the contamination principle may not always hold and default risk can also be product specific.
 
 In the case of a default, the actual loss depends on the loss given default (LGD) and the exposure at default (EAD).
+
+### Loss risk (LGD)
 
 **Loss risk (LGD)**: The loss risk determines the loss as a fraction of the exposure in the case of default. In the Basel II terminology, this parameter is known as the loss given default (LGD). In the case of no loss, the LGD is equal to zero. When one loses the full exposure amount, the LGD is equal to 100%. A negative LGD indicates a profit (e.g., due to penalty fees and interest rate). In some cases, the LGD can be above 100%, e.g., due to litigation costs and almost zero recovery from the defaulted counterpart. In some textbooks, one also uses the related concept of the recovery rate: the fraction of the total amount that one recovers. Both the loss given default and the recovery rate sum up to one.
 
@@ -34,6 +36,8 @@ In practice, the LGD values are observed to vary quite a lot and depend upon the
 It is difficult to predict the resolution type before default. On average, liquidation is expected to occur more for the weakest counterparts for which investors and banks are less eager to reinvest.
 
 The LGD is measured on a product basis. It has typically values between 0 and 100% and is either represented in a continuous way or by means of loss grades.
+
+### Exposure risk (EAD)
 
 **Exposure risk (EAD)**: The exposure at the time of default (EAD) may not be known beforehand.
 

@@ -1,6 +1,6 @@
 ---
-title: "Credit risk modelling"
-subtitle: "A Guide for modelling credit risk"
+title: "Credit Risk Modelling"
+subtitle: "A Guide for Modelling Credit Risk"
 author: "Lučka Ilc"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -13,7 +13,7 @@ documentclass: book
 biblio-style: apalike
 link-citations: yes
 github-repo: luckailc/credit_risk_modelling_book
-description: "Book about credit risk modelling"
+description: "Book about Credit Risk Modelling"
 ---
 
 # Introduction {-}
