@@ -1,2 +1,2 @@
 # credit_risk_modelling_book
-Book about credit risk modelling
+Book about Credit Risk Modelling
